@@ -30,7 +30,7 @@
 // "Suggest a feature" buttons open the repository's issue tracker.
 // Set SUGGEST_URL to your repository's issues page, e.g.
 // https://github.com/<user>/<repo>/issues/new
-const SUGGEST_URL = '';
+const SUGGEST_URL = 'https://github.com/ayoubais065-afk/etrave/issues/new';
 
 if (SUGGEST_URL) {
   document.querySelectorAll('[data-suggest-link]').forEach((a) => {
