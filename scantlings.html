@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" data-title-key="calc.title">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scantlings – ÉTRAVE</title>
+  <meta name="description" content="Preliminary local scantlings in accordance with Bureau Veritas NR600 and NR546: sea pressures, slamming, side impact, steel and aluminium plating and stiffeners, composite laminates ply by ply.">
+  <meta name="theme-color" content="#07111F">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/scantlings.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" data-i18n-attr="aria-label:brand.home" aria-label="ÉTRAVE home">
+        <img src="assets/logo.svg" width="40" height="40" alt="">
+        <span class="brand-text">
+          <span class="brand-name">ÉTRAVE</span>
+          <span class="brand-tag" data-i18n="brand.tag">PRELIMINARY SHIP DESIGN</span>
+        </span>
+      </a>
+      <nav class="main-nav" data-i18n-attr="aria-label:nav.aria" aria-label="Main">
+        <a href="index.html#platform" data-i18n="nav.platform">Platform</a>
+        <a href="scantlings.html" aria-current="page" data-i18n="nav.scantlings">Scantlings</a>
+        <a href="index.html#mcp" data-i18n="nav.mcp">MCP</a>
+        <a href="index.html#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+      </nav>
+      <div class="header-end">
+        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.aria" aria-label="Language">
+          <button type="button" data-lang="en" lang="en" aria-label="English">EN</button>
+          <button type="button" data-lang="fr" lang="fr" aria-label="Français">FR</button>
+          <button type="button" data-lang="ar" lang="ar" aria-label="العربية">ع</button>
+        </div>
+        <a class="btn btn-primary btn-sm header-cta" href="#suggest" data-suggest-link data-i18n="cta.suggest">Suggest a feature</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container calc">
+    <div class="calc-head">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-rule"></span><span data-i18n="calc.eyebrow">Bureau Veritas · NR600 · NR546</span></p>
+        <h1 class="calc-title" data-i18n="calc.h1">Preliminary scantlings</h1>
+        <p class="lead" data-i18n="calc.lead">Local loads and scantlings of plating and secondary stiffeners for ships less than 90 m, in steel, aluminium or composite.</p>
+      </div>
+      <div class="calc-actions">
+        <button type="button" class="btn btn-ghost" id="reset" data-i18n="calc.reset">Reset example</button>
+        <button type="button" class="btn btn-primary" id="print" data-i18n="calc.print">Print / PDF</button>
+      </div>
+    </div>
+
+    <!-- Ship data -->
+    <section class="card" aria-labelledby="ship-h">
+      <div class="card-head">
+        <h2 id="ship-h" data-i18n="ship.h">Ship data</h2>
+        <span class="card-note">NR600 Ch 1, Sec 1</span>
+      </div>
+      <form class="grid-form" id="ship-form" autocomplete="off">
+        <label><span data-i18n="f.group">Ship group</span>
+          <select name="group"><option value="nonCargo" data-i18n="opt.nonCargo">Non-cargo ship</option><option value="cargo" data-i18n="opt.cargo">Cargo ship</option></select>
+        </label>
+        <label><span data-i18n="f.service">Service</span>
+          <select name="service">
+            <option value="fishing" data-i18n="svc.fishing">Fishing vessel</option>
+            <option value="supply" data-i18n="svc.supply">Supply</option>
+            <option value="passenger" data-i18n="svc.passenger">Passenger / ferry</option>
+            <option value="cargo" data-i18n="svc.cargo">Cargo</option>
+            <option value="pilot" data-i18n="svc.pilot">Pilot / patrol</option>
+            <option value="rescue" data-i18n="svc.rescue">Rescue</option>
+          </select>
+        </label>
+        <label><span data-i18n="f.navigation">Navigation notation</span>
+          <select name="navigation">
+            <option value="unrestricted" data-i18n="nav.unrestricted">Unrestricted navigation</option>
+            <option value="summer" data-i18n="nav.summer">Summer zone</option>
+            <option value="tropical" data-i18n="nav.tropical">Tropical zone</option>
+            <option value="coastal" data-i18n="nav.coastal">Coastal area</option>
+            <option value="sheltered" data-i18n="nav.sheltered">Sheltered area</option>
+          </select>
+        </label>
+        <label><span data-i18n-html="f.LWL">Waterline length L<sub>WL</sub></span> <span class="unit">m</span><input name="LWL" type="number" step="any" min="3" required></label>
+        <label><span data-i18n-html="f.LHULL">Hull length L<sub>HULL</sub></span> <span class="unit">m</span><input name="LHULL" type="number" step="any" min="3" required></label>
+        <label><span data-i18n-html="f.B">Waterline breadth B<sub>WL</sub></span> <span class="unit">m</span><input name="B" type="number" step="any" min="0.5" required></label>
+        <label><span data-i18n="f.D">Depth D</span> <span class="unit">m</span><input name="D" type="number" step="any" min="0.3" required></label>
+        <label><span data-i18n="f.T">Scantling draught T</span> <span class="unit">m</span><input name="T" type="number" step="any" min="0.1" required></label>
+        <label><span data-i18n="f.disp">Displacement Δ</span> <span class="unit">t</span><input name="displacement" type="number" step="any" min="0.1" required></label>
+        <label><span data-i18n="f.V">Max. service speed V</span> <span class="unit">kn</span><input name="V" type="number" step="any" min="0" required></label>
+        <label><span data-i18n="f.planing">Planing hull</span>
+          <select name="planing"><option value="no" data-i18n="opt.no">No</option><option value="yes" data-i18n="opt.yes">Yes</option></select>
+        </label>
+        <label><span data-i18n-html="f.deadrise">Deadrise at L<sub>CG</sub></span> <span class="unit">°</span><input name="deadriseLCG" type="number" step="any" min="0" max="50"></label>
+        <label><span data-i18n-html="f.aCG">Design acceleration a<sub>CG</sub></span> <span class="unit">g</span><input name="aCG" type="number" step="any" min="0" data-i18n-attr="placeholder:f.aCGph" placeholder="guidance"></label>
+      </form>
+      <dl class="derived" id="ship-derived"></dl>
+      <ul class="warnings" id="ship-warnings"></ul>
+    </section>
+
+    <div class="method-tabs" role="tablist" data-i18n-attr="aria-label:method.aria" aria-label="Hull material">
+      <button type="button" role="tab" id="tab-metal" aria-controls="panel-metal" aria-selected="true">
+        <span class="method-num">1</span><span><strong data-i18n="m1.h">Steel / aluminium</strong><small data-i18n="m1.sub">NR600 Ch 4, Sec 3 and Sec 4</small></span>
+      </button>
+      <button type="button" role="tab" id="tab-comp" aria-controls="panel-comp" aria-selected="false" tabindex="-1">
+        <span class="method-num">2</span><span><strong data-i18n="m2.h">Composite</strong><small data-i18n="m2.sub">NR546 ply by ply, NR600 safety factors</small></span>
+      </button>
+    </div>
+
+    <!-- ================= METAL ================= -->
+    <div id="panel-metal" role="tabpanel" aria-labelledby="tab-metal">
+      <section class="card" aria-labelledby="mat-h">
+        <div class="card-head">
+          <h2 id="mat-h" data-i18n="mat.h">Material</h2>
+          <span class="card-note">NR600 Ch 1, Sec 2</span>
+        </div>
+        <form class="grid-form" id="mat-form" autocomplete="off">
+          <label><span data-i18n="f.metal">Material</span>
+            <select name="kind"><option value="steel" data-i18n="opt.steel">Steel</option><option value="aluminium" data-i18n="opt.aluminium">Aluminium alloy</option></select>
+          </label>
+          <label><span data-i18n="f.grade">Grade</span><select name="grade"></select></label>
+        </form>
+        <dl class="derived" id="mat-derived"></dl>
+        <p class="fine" id="alu-note" data-i18n="mat.aluNote" hidden>Welded aluminium properties are typical values: check them against NR561 and the supplier's certificate.</p>
+      </section>
+
+      <section class="card" aria-labelledby="plates-h">
+        <div class="card-head">
+          <h2 id="plates-h" data-i18n="plates.h">Plating</h2>
+          <button type="button" class="btn btn-ghost btn-xs" id="add-plate" data-i18n="plates.add">Add panel</button>
+        </div>
+        <div class="table-wrap">
+          <table class="calc-table" id="plates-table">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="th.panel">Panel</th>
+                <th scope="col" data-i18n="th.zone">Zone</th>
+                <th scope="col">x <span class="unit">m</span></th>
+                <th scope="col">s <span class="unit">m</span></th>
+                <th scope="col">ℓ <span class="unit">m</span></th>
+                <th scope="col" data-i18n-attr="title:th.zTitle">z <span class="unit">m</span></th>
+                <th scope="col" data-i18n="th.framing">Framing</th>
+                <th scope="col"><span data-i18n="th.loads">Loads</span> <span class="unit">kN/m²</span></th>
+                <th scope="col"><span data-i18n="th.thickness">Thickness</span> <span class="unit">mm</span></th>
+                <th scope="col"><span class="sr-only" data-i18n="th.actions">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="fine" data-i18n-html="plates.fine">x from the aft end of L<sub>WL</sub>; z above the base line at the lower edge of the panel (deck: height of the deck). Thickness rounded to the nearest 0.5 mm, corrosion addition included (gross scantling).</p>
+      </section>
+
+      <section class="card" aria-labelledby="stiff-h">
+        <div class="card-head">
+          <h2 id="stiff-h" data-i18n="stiff.h">Secondary stiffeners</h2>
+          <button type="button" class="btn btn-ghost btn-xs" id="add-stiff" data-i18n="stiff.add">Add stiffener</button>
+        </div>
+        <div class="table-wrap">
+          <table class="calc-table" id="stiff-table">
+            <thead>
+              <tr>
+                <th scope="col" data-i18n="th.stiff">Stiffener</th>
+                <th scope="col" data-i18n="th.zone">Zone</th>
+                <th scope="col" data-i18n="th.type">Type</th>
+                <th scope="col">x <span class="unit">m</span></th>
+                <th scope="col">s <span class="unit">m</span></th>
+                <th scope="col">ℓ <span class="unit">m</span></th>
+                <th scope="col" data-i18n-attr="title:th.zStiffTitle">z <span class="unit">m</span></th>
+                <th scope="col" data-i18n="th.ends">Ends</th>
+                <th scope="col"><span data-i18n="th.loads">Loads</span> <span class="unit">kN/m²</span></th>
+                <th scope="col" data-i18n="th.reqStiff">Requirement</th>
+                <th scope="col"><span class="sr-only" data-i18n="th.actions">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="fine" data-i18n-html="stiff.fine">Section modulus Z and shear area A<sub>sh</sub> include the attached plating b<sub>p</sub> = min(0.2 ℓ ; s). Vertical side frames: z at the lower end, upper end at z + ℓ.</p>
+      </section>
+    </div>
+
+    <!-- ================= COMPOSITE ================= -->
+    <div id="panel-comp" role="tabpanel" aria-labelledby="tab-comp" hidden>
+      <section class="card" aria-labelledby="cp-h">
+        <div class="card-head">
+          <h2 id="cp-h" data-i18n="cp.h">Panel and loads</h2>
+          <span class="card-note">NR600 Ch 3, Sec 3 · NR546 Sec 6</span>
+        </div>
+        <form class="grid-form" id="comp-form" autocomplete="off">
+          <label><span data-i18n="f.plate">Panel from plating list</span><select name="plate"></select></label>
+          <label><span data-i18n="f.resin">Resin</span>
+            <select name="resin"><option value="polyester" data-i18n="opt.polyester">Polyester</option><option value="vinylester" data-i18n="opt.vinylester">Vinylester</option><option value="epoxy" data-i18n="opt.epoxy">Epoxy</option></select>
+          </label>
+          <label><span data-i18n="f.process">Process</span>
+            <select name="process"><option value="handLayUp" data-i18n="opt.handLayUp">Hand lay-up</option><option value="infusion" data-i18n="opt.infusion">Infusion / vacuum</option><option value="prepreg" data-i18n="opt.prepreg">Pre-preg</option></select>
+          </label>
+        </form>
+        <dl class="derived" id="comp-loads"></dl>
+      </section>
+
+      <section class="card" aria-labelledby="lam-h">
+        <div class="card-head">
+          <h2 id="lam-h"><span data-i18n="lam.h">Laminate stack</span> <span class="card-note" data-i18n="lam.note">outer face (wetted side) first</span></h2>
+          <div class="btn-row">
+            <button type="button" class="btn btn-ghost btn-xs" id="add-layer" data-i18n="lam.addLayer">Add layer</button>
+            <button type="button" class="btn btn-ghost btn-xs" id="add-core" data-i18n="lam.addCore">Add core</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="calc-table" id="layers-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" data-i18n="th.fabric">Fabric</th>
+                <th scope="col" data-i18n="th.fibre">Fibre / core</th>
+                <th scope="col" data-i18n-html="th.mass">Mass <span class="unit">g/m²</span> · Density <span class="unit">kg/m³</span></th>
+                <th scope="col" data-i18n-html="th.mf">M<sub>f</sub> · Thickness</th>
+                <th scope="col"><span data-i18n="th.angle">Angle</span> <span class="unit">°</span></th>
+                <th scope="col">t <span class="unit">mm</span></th>
+                <th scope="col">E₁ / E₂ <span class="unit">N/mm²</span></th>
+                <th scope="col" data-i18n="th.sfreq">SF required</th>
+                <th scope="col" data-i18n="th.util">Utilisation</th>
+                <th scope="col"><span class="sr-only" data-i18n="th.actions">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="verdict" id="comp-verdict" role="status"></div>
+        <dl class="derived" id="comp-derived"></dl>
+        <p class="fine" data-i18n-html="comp.fine">Rule safety factors from NR600 Ch 2, Sec 3, [3.2]: SF = C<sub>V</sub>·C<sub>F</sub>·C<sub>R</sub>·C<sub>i</sub> and SF<sub>CS</sub> = C<sub>CS</sub>·C<sub>V</sub>·C<sub>F</sub>·C<sub>i</sub>, with C<sub>i</sub> = 1.0 (sea), 0.8 (slamming), 0.6 (side impact).</p>
+      </section>
+    </div>
+
+    <section class="card note-card" aria-labelledby="notes-h">
+      <h2 id="notes-h" data-i18n="notes.h">Scope and limits</h2>
+      <ul>
+        <li data-i18n="notes.1">Preliminary results only. Not valid for construction, approval or classification.</li>
+        <li data-i18n="notes.2">Monohulls only. Primary supporting members, hull girder strength, buckling, internal and wheeled loads are not yet included.</li>
+        <li data-i18n="notes.3">Composite side impact is applied as a uniform pressure over the panel and the dynamic amplification factor K_DA is taken as 1 (monolithic panels); both are conservative simplifications for sandwich panels.</li>
+        <li data-i18n="notes.4">Calculations follow Bureau Veritas NR600 (March 2026) and NR546 (November 2022). The rule texts are not reproduced; consult them for the complete requirements.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 ÉTRAVE</span>
+      <span class="muted" data-i18n="footer.note">Preliminary results only. Not valid for construction or approval.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module" src="js/scantlings-app.js"></script>
+</body>
+</html>

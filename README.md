@@ -10,12 +10,25 @@ In naval architecture, the *étrave* (the stem) is the first part of a vessel to
 
 - **Parametric hull form**: hard chine or round bilge, with a lines plan and a 3D view
 - **Hydrostatics**: displacement, LCB, KB, BM and an initial GM estimate
-- **Scantlings in accordance with Bureau Veritas rules** (in preparation): design loads, plating and stiffeners for fishing vessels and small craft in composite, steel and aluminium
+- **Scantlings in accordance with Bureau Veritas rules** (available: `scantlings.html`), see below
 - **Weight and cost**: weight estimate and construction cost in DZD, with editable unit prices
 - **PDF report** for the client
 - **MCP server**: the calculations exposed as Model Context Protocol tools, so an AI assistant can generate a preliminary design from a plain-language brief
 
 All results are preliminary and are not valid for construction or approval. Rule texts are not reproduced in this repository; calculations refer to rule clauses by number.
+
+## Scantling calculator (Bureau Veritas NR600 and NR546)
+
+`scantlings.html` gives preliminary local scantlings for monohulls within the scope of NR600 (cargo ships under 65 m, other ships under 90 m):
+
+- Ship data: L<sub>W</sub>, C<sub>B</sub>, C<sub>W</sub>, navigation coefficients, relative motion h<sub>1</sub> by area, planing guidance and design acceleration a<sub>CG</sub>
+- Loads (NR600 Ch 3, Sec 3): sea pressure on bottom, side and exposed deck; side shell impact; bottom slamming of planing hulls; fishing vessel working deck (Ch 6, Sec 1)
+- Steel and aluminium (Ch 4, Sec 3 and Sec 4): plating thickness and secondary stiffener section modulus and shear area, with rule minimums and the +0.5 mm fishing vessel addition
+- Composite: ply-by-ply analysis following NR546 (micromechanics, laminate theory, panel moments and shear) checked against the NR600 rule safety factors for each load case
+
+Not yet included: primary supporting members, hull girder strength, buckling, internal and wheeled loads, multihulls, high speed craft (NR396). Welded aluminium properties are typical values to be checked against NR561.
+
+Run the checks with `npm test` (Node 18 or later).
 
 ## Project structure
 
@@ -24,6 +37,10 @@ index.html        Website (home page)
 css/style.css     Styles; colours are CSS variables at the top of the file
 js/main.js        Shared behaviour
 js/i18n.js        Translations (English, French, Arabic) and language switcher
+scantlings.html   Scantling calculator
+js/rules/         Rule engines: nr600.js (loads, steel and aluminium), nr546.js (composite)
+js/scantlings-app.js  Calculator page
+test/             Reference cases (npm test)
 assets/           Logo and favicon
 ```
 
