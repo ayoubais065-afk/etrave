@@ -21,11 +21,31 @@ All results are preliminary and are not valid for construction or approval.
 ## Project structure
 
 ```
-index.html        Website (single page)
-css/style.css     Styles; colours are CSS variables at the top of the file
-js/main.js        Drawing tabs and "Suggest a feature" link
-assets/           Logo and favicon
+index.html                       Website (home page)
+scantlings.html                  Scantling calculator (beta)
+css/style.css                    Shared styles; colours are CSS variables at the top
+css/scantlings.css               Calculator styles and print layout
+js/main.js                       Shared behaviour
+js/scantlings-app.js             Calculator page
+js/scantling/iso12215-5.js       ISO 12215-5:2008 engine: pressures, factors, plating, stiffeners
+js/scantling/bv-nr546.js         BV NR546 engine: layer properties, laminate theory, ply-by-ply check
+test/scantling.test.mjs          Unit tests against hand calculations and tabulated values
+assets/                          Logo and favicon
 ```
+
+## Scantling calculator
+
+**Method 1 – ISO 12215-5:2008.** Dynamic load factor, kL, kAR, kZ, kSUP; motor and sailing craft design pressures (bottom, side, deck, superstructure, watertight bulkheads, tanks); plating for FRP single skin (Annex C), FRP sandwich (Annex D), aluminium and steel (Annex F) and plywood; minimum thickness and fibre mass; stiffener section modulus, web area and second moment.
+
+**Method 2 – BV NR546 methodology.** The actual laminate is entered layer by layer (CSM, woven roving, UD, double bias, cores). Layer elastic constants and breaking stresses are derived from fibre and resin (Sec 5), the laminate is analysed with classical lamination theory (Sec 6), clamped-panel moments are applied and every ply is checked in fibre, transverse, shear and interlaminar directions and with the Hoffman criterion (Sec 2). Loads come from Method 1.
+
+Known limitations:
+
+- The 2019 edition of ISO 12215-5 is not yet included.
+- BV partial safety factors are editable, provisional defaults; the official values are in NR600 / NR500.
+- ISO 12215-5 is written for recreational craft; professional vessels may fall under other rules.
+
+Run the tests with `npm test` (Node.js 18 or later).
 
 ## Run locally
 

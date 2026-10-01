@@ -1,0 +1,10 @@
+{
+  "name": "etrave",
+  "version": "0.2.0",
+  "private": true,
+  "description": "ÉTRAVE – AI-assisted preliminary ship design",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
