@@ -2,30 +2,31 @@
 import * as nr600 from './rules/nr600.js';
 import * as nr546 from './rules/nr546.js';
 import { t, fmt, onLangChange } from './i18n.js';
+import { estimate, groupOf } from './estimate.js';
 
-const STORAGE_KEY = 'etrave.scantlings.v2';
+const STORAGE_KEY = 'etrave.scantlings.v3';
 
 // Reference project: 12 m steel trawler, coastal area (same data as the tests).
 // Example rows carry a nameKey so that their names follow the interface
 // language until the user renames them.
 const EXAMPLE = () => ({
   tab: 'metal',
+  // Only length and breadth are given; everything else is estimated.
   ship: {
-    group: 'nonCargo', service: 'fishing', navigation: 'coastal',
-    LWL: 11.5, LHULL: 12.5, B: 4.2, D: 2.2, T: 1.5, displacement: 30, V: 10,
-    planing: 'no', deadriseLCG: 15, aCG: NaN,
+    service: 'fishing', navigation: 'coastal', planing: 'no', LHULL: 12.5, B: 4.4,
+    LWL: NaN, BWL: NaN, D: NaN, T: NaN, displacement: NaN, V: NaN, deadriseLCG: NaN, aCG: NaN,
   },
   metal: { kind: 'steel', grade: 'A' },
   plates: [
     { nameKey: 'ex.bottomMid', zone: 'bottom', x: 5.75, s: 0.4, l: 1.2, z: 0, framing: 'transverse' },
     { nameKey: 'ex.bottomFwd', zone: 'bottom', x: 9.8, s: 0.4, l: 1.2, z: 0, framing: 'transverse' },
     { nameKey: 'ex.side', zone: 'side', x: 5.75, s: 0.4, l: 1.2, z: 1.6, framing: 'transverse' },
-    { nameKey: 'ex.deck', zone: 'workdeck', x: 5.75, s: 0.4, l: 1.2, z: 2.2, framing: 'transverse' },
+    { nameKey: 'ex.deck', zone: 'workdeck', x: 5.75, s: 0.4, l: 1.2, z: NaN, framing: 'transverse' },
   ],
   stiffeners: [
     { nameKey: 'ex.floor', zone: 'bottom', type: 'transverse', x: 5.75, s: 0.4, l: 1.2, z: 0, end: 'fixed' },
     { nameKey: 'ex.frame', zone: 'side', type: 'frame', x: 5.75, s: 0.4, l: 1.4, z: 0.8, end: 'fixed' },
-    { nameKey: 'ex.beam', zone: 'workdeck', type: 'transverse', x: 5.75, s: 0.4, l: 2.0, z: 2.2, end: 'fixed' },
+    { nameKey: 'ex.beam', zone: 'workdeck', type: 'transverse', x: 5.75, s: 0.4, l: 2.0, z: NaN, end: 'fixed' },
   ],
   comp: {
     plate: 0, resin: 'polyester', process: 'handLayUp',
@@ -120,25 +121,60 @@ function setupTabs() {
 // ---------------------------------------------------------------------------
 let sh = null;
 
+let est = null;
+
+/** Values used by the rules: the designer's own where given, otherwise the estimate. */
 function shipInput() {
   const s = state.ship;
-  return { ...s, planing: s.planing === 'yes', aCG: ok(s.aCG) && s.aCG > 0 ? s.aCG : undefined };
+  const planing = s.planing === 'yes';
+  est = estimate({ ...s, planing });
+  const v = est.values;
+  return {
+    service: s.service, group: groupOf(s.service), navigation: s.navigation, planing,
+    LHULL: s.LHULL, LWL: v.LWL, B: v.BWL, D: v.D, T: v.T, displacement: v.displacement, V: v.V,
+    deadriseLCG: v.deadriseLCG, aCG: ok(s.aCG) && s.aCG > 0 ? s.aCG : undefined,
+  };
 }
 
 function shipValid() {
   const s = state.ship;
-  return ['LWL', 'LHULL', 'B', 'D', 'T', 'displacement'].every((k) => ok(s[k]) && s[k] > 0) && ok(s.V) && s.T < s.D + 1e-9;
+  return ok(s.LHULL) && s.LHULL >= 2 && ok(s.B) && s.B > 0.3;
+}
+
+/** Shows the estimate as placeholder of every field left empty. */
+function showEstimates(input) {
+  const form = $('#ship-form');
+  const used = sh ? nr600.designAcceleration(sh).aCG : NaN;
+  for (const label of form.querySelectorAll('[data-auto]')) {
+    const k = label.dataset.auto;
+    const inp = label.querySelector('input');
+    const a = k === 'aCG' ? (input?.planing ? used : NaN) : est?.auto[k];
+    const d = k === 'displacement' ? 1 : k === 'deadriseLCG' ? 0 : 2;
+    inp.placeholder = Number.isFinite(a) ? `${t('auto.tag')} ${fmt(a, d)}` : (k === 'aCG' ? '–' : '');
+    label.classList.toggle('is-auto', !(Number.isFinite(state.ship[k]) && state.ship[k] > 0));
+  }
 }
 
 function computeShip() {
   const warn = [];
   if (!shipValid()) {
     sh = null;
+    est = null;
+    showEstimates(null);
     $('#ship-derived').innerHTML = '';
     $('#ship-warnings').innerHTML = `<li>${esc(t('comp.check'))}</li>`;
     return;
   }
-  sh = nr600.ship(shipInput());
+  const input = shipInput();
+  if (!(input.T < input.D) || !(input.LWL > 0) || !(input.displacement > 0)) {
+    sh = null;
+    showEstimates(input);
+    $('#ship-derived').innerHTML = '';
+    $('#ship-warnings').innerHTML = `<li>${esc(t('comp.check'))} (T &lt; D)</li>`;
+    return;
+  }
+  sh = nr600.ship(input);
+  showEstimates(input);
   const h = nr600.relativeMotion(sh);
   const items = [
     [t('d.LW'), `${fmt(sh.LW, 2)} m`],
@@ -171,10 +207,6 @@ function bindShip() {
     const el = e.target;
     if (!el.name) return;
     state.ship[el.name] = el.type === 'number' ? num(el.value) : el.value;
-    if (el.name === 'group' && el.value === 'cargo' && state.ship.service === 'fishing') {
-      state.ship.service = 'cargo';
-      form.elements.service.value = 'cargo';
-    }
     computeAll();
   });
 }
@@ -219,7 +251,10 @@ function bindMaterial() {
 // ---------------------------------------------------------------------------
 // Plating and stiffener tables
 // ---------------------------------------------------------------------------
-const numCell = (r, k, label, attrs = 'step="any" min="0"') => `<td class="w-sm"><input aria-label="${esc(label)} – ${k}" data-k="${k}" type="number" ${attrs} value="${val(r[k])}"></td>`;
+const numCell = (r, k, label, attrs = 'step="any" min="0"') => {
+  const ph = k === 'z' && isDeck(r) ? ` placeholder="D" title="${esc(t('auto.deckZ'))}"` : '';
+  return `<td class="w-sm"><input aria-label="${esc(label)} – ${k}" data-k="${k}" type="number" ${attrs}${ph} value="${val(r[k])}"></td>`;
+};
 
 function renderPlates() {
   $('#plates-table tbody').innerHTML = state.plates.map((r, i) => {
@@ -254,20 +289,23 @@ function renderStiffeners() {
   }).join('');
 }
 
-const rowValid = (r) => ok(r.x) && ok(r.z) && ok(r.s) && r.s > 0 && ok(r.l) && r.l > 0;
+const isDeck = (r) => r.zone === 'deck' || r.zone === 'workdeck';
+/** Height of the row; an empty deck height means the deck at depth D. */
+const zOf = (r) => (isDeck(r) && !ok(r.z) ? sh.D : r.z);
+const rowValid = (r) => ok(r.x) && (ok(r.z) || isDeck(r)) && ok(r.s) && r.s > 0 && ok(r.l) && r.l > 0;
 
 function plateResult(r) {
   const z = ruleZone(r.zone);
-  return nr600.plate(sh, mat, { ...z, x: r.x, s: r.s, l: r.l, z: r.z, zd: r.z, framing: r.framing });
+  return nr600.plate(sh, mat, { ...z, x: r.x, s: r.s, l: r.l, z: zOf(r), zd: zOf(r), framing: r.framing });
 }
 
 function stiffenerResult(r) {
   const z = ruleZone(r.zone);
   const vertical = r.type === 'frame' && r.zone === 'side';
   return nr600.stiffener(sh, mat, {
-    ...z, x: r.x, s: r.s, l: r.l, z: r.z, zd: r.z,
+    ...z, x: r.x, s: r.s, l: r.l, z: zOf(r), zd: zOf(r),
     direction: r.type === 'longitudinal' ? 'longitudinal' : 'transverse',
-    vertical, zTop: vertical ? r.z + r.l : undefined, end: r.end,
+    vertical, zTop: vertical ? zOf(r) + r.l : undefined, end: r.end,
   });
 }
 
@@ -315,6 +353,7 @@ function bindTable(sel, list, render, blank) {
     const r = list()[Number(e.target.closest('tr').dataset.i)];
     r[k] = e.target.type === 'number' ? num(e.target.value) : e.target.value;
     if (k === 'name') { delete r.nameKey; refreshCompositePlates(); save(); return; }
+    if (k === 'zone') render();
     computeAll();
   };
   tbody.addEventListener('input', onEdit);
@@ -348,13 +387,13 @@ function compositeLoads(r, sandwich) {
   const { zone, workingDeck } = ruleZone(r.zone);
   const b = Math.min(r.s, r.l);
   const a = Math.max(r.s, r.l);
-  const zLoad = zone === 'side' && sandwich ? r.z + b / 2 : r.z;
+  const zLoad = zone === 'side' && sandwich ? zOf(r) + b / 2 : zOf(r);
   const loads = [];
   let p;
   if (zone === 'bottom') p = nr600.bottomSeaPressure(sh, r.x).p;
   else if (zone === 'side') p = nr600.sideSeaPressure(sh, r.x, zLoad).p;
   else {
-    p = nr600.deckPressure(sh, r.x, r.z).p;
+    p = nr600.deckPressure(sh, r.x, zOf(r)).p;
     if (workingDeck && sh.service === 'fishing') p = Math.max(p, 8.5);
   }
   loads.push({ load: 'sea', p });

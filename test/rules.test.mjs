@@ -116,3 +116,17 @@ test('NR546 square clamped panel: edge moment |F1| = 0,0519 and shear 0,25 p a0'
 test('Hoffman reduces to the direct criterion under uniaxial tension', () => {
   near(nr546.hoffman(25, 0, 0, { t1: 100, c1: 80, t2: 50, c2: 60, s12: 40 }), 4, 1e-6);
 });
+
+import { estimate } from '../js/estimate.js';
+
+test('Estimate from length and breadth: 12,5 m trawler and designer overrides', () => {
+  const e = estimate({ service: 'fishing', planing: false, LHULL: 12.5, B: 4.4 });
+  near(e.values.LWL, 11.5);
+  near(e.values.T, 0.36 * 0.95 * 4.4);
+  near(e.values.displacement, 1.025 * 11.5 * 4.18 * 1.5048 * 0.42, 0.005);
+  const o = estimate({ service: 'fishing', planing: false, LHULL: 12.5, B: 4.4, T: 1.2 });
+  assert.equal(o.values.T, 1.2);
+  assert.ok(o.values.displacement < e.values.displacement); // follows the designer's draught
+  const tour = estimate({ service: 'tourism', planing: true, LHULL: 10, B: 3.2 });
+  assert.ok(tour.values.V > 20 && tour.values.V < 10 * Math.sqrt(tour.values.LWL));
+});

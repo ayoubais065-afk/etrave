@@ -27,7 +27,7 @@ export const NAVIGATION = {
 };
 
 /** foc by type of service (Ch 3, Sec 3, Tab 5). */
-export const SERVICE_FOC = { passenger: 0.666, cargo: 0.666, ferry: 0.666, fishing: 1.0, supply: 1.0, pilot: 1.333, patrol: 1.333, rescue: 1.666 };
+export const SERVICE_FOC = { passenger: 0.666, tourism: 0.666, cargo: 0.666, ferry: 0.666, fishing: 1.0, supply: 1.0, pilot: 1.333, patrol: 1.333, rescue: 1.666 };
 
 /**
  * Normalises the ship data.

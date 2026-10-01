@@ -61,17 +61,16 @@
         <span class="card-note">NR600 Ch 1, Sec 1</span>
       </div>
       <form class="grid-form" id="ship-form" autocomplete="off">
-        <label><span data-i18n="f.group">Ship group</span>
-          <select name="group"><option value="nonCargo" data-i18n="opt.nonCargo">Non-cargo ship</option><option value="cargo" data-i18n="opt.cargo">Cargo ship</option></select>
-        </label>
-        <label><span data-i18n="f.service">Service</span>
+        <p class="form-sub" data-i18n="ship.main">Main data: enough to start</p>
+        <label><span data-i18n="f.service">Type of vessel</span>
           <select name="service">
             <option value="fishing" data-i18n="svc.fishing">Fishing vessel</option>
-            <option value="supply" data-i18n="svc.supply">Supply</option>
+            <option value="tourism" data-i18n="svc.tourism">Tourist / excursion boat</option>
             <option value="passenger" data-i18n="svc.passenger">Passenger / ferry</option>
-            <option value="cargo" data-i18n="svc.cargo">Cargo</option>
             <option value="pilot" data-i18n="svc.pilot">Pilot / patrol</option>
             <option value="rescue" data-i18n="svc.rescue">Rescue</option>
+            <option value="supply" data-i18n="svc.supply">Supply</option>
+            <option value="cargo" data-i18n="svc.cargo">Cargo</option>
           </select>
         </label>
         <label><span data-i18n="f.navigation">Navigation notation</span>
@@ -83,18 +82,21 @@
             <option value="sheltered" data-i18n="nav.sheltered">Sheltered area</option>
           </select>
         </label>
-        <label><span data-i18n-html="f.LWL">Waterline length L<sub>WL</sub></span> <span class="unit">m</span><input name="LWL" type="number" step="any" min="3" required></label>
-        <label><span data-i18n-html="f.LHULL">Hull length L<sub>HULL</sub></span> <span class="unit">m</span><input name="LHULL" type="number" step="any" min="3" required></label>
-        <label><span data-i18n-html="f.B">Waterline breadth B<sub>WL</sub></span> <span class="unit">m</span><input name="B" type="number" step="any" min="0.5" required></label>
-        <label><span data-i18n="f.D">Depth D</span> <span class="unit">m</span><input name="D" type="number" step="any" min="0.3" required></label>
-        <label><span data-i18n="f.T">Scantling draught T</span> <span class="unit">m</span><input name="T" type="number" step="any" min="0.1" required></label>
-        <label><span data-i18n="f.disp">Displacement Δ</span> <span class="unit">t</span><input name="displacement" type="number" step="any" min="0.1" required></label>
-        <label><span data-i18n="f.V">Max. service speed V</span> <span class="unit">kn</span><input name="V" type="number" step="any" min="0" required></label>
-        <label><span data-i18n="f.planing">Planing hull</span>
-          <select name="planing"><option value="no" data-i18n="opt.no">No</option><option value="yes" data-i18n="opt.yes">Yes</option></select>
+        <label><span data-i18n="f.planing">Hull type</span>
+          <select name="planing"><option value="no" data-i18n="opt.displacementHull">Displacement</option><option value="yes" data-i18n="opt.planingHull">Planing</option></select>
         </label>
-        <label><span data-i18n-html="f.deadrise">Deadrise at L<sub>CG</sub></span> <span class="unit">°</span><input name="deadriseLCG" type="number" step="any" min="0" max="50"></label>
-        <label><span data-i18n-html="f.aCG">Design acceleration a<sub>CG</sub></span> <span class="unit">g</span><input name="aCG" type="number" step="any" min="0" data-i18n-attr="placeholder:f.aCGph" placeholder="guidance"></label>
+        <label><span data-i18n-html="f.LHULL">Hull length L<sub>HULL</sub></span> <span class="unit">m</span><input name="LHULL" type="number" step="any" min="3" required></label>
+        <label><span data-i18n="f.Bmax">Maximum breadth B</span> <span class="unit">m</span><input name="B" type="number" step="any" min="0.5" required></label>
+
+        <p class="form-sub"><span data-i18n="ship.auto">Estimated automatically: replace any value with your own</span></p>
+        <label data-auto="LWL"><span data-i18n-html="f.LWL">Waterline length L<sub>WL</sub></span> <span class="unit">m</span><input name="LWL" type="number" step="any" min="3"></label>
+        <label data-auto="BWL"><span data-i18n-html="f.BWL">Waterline breadth B<sub>WL</sub></span> <span class="unit">m</span><input name="BWL" type="number" step="any" min="0.5"></label>
+        <label data-auto="D"><span data-i18n="f.D">Depth D</span> <span class="unit">m</span><input name="D" type="number" step="any" min="0.3"></label>
+        <label data-auto="T"><span data-i18n="f.T">Scantling draught T</span> <span class="unit">m</span><input name="T" type="number" step="any" min="0.1"></label>
+        <label data-auto="displacement"><span data-i18n="f.disp">Displacement Δ</span> <span class="unit">t</span><input name="displacement" type="number" step="any" min="0.1"></label>
+        <label data-auto="V"><span data-i18n="f.V">Max. service speed V</span> <span class="unit">kn</span><input name="V" type="number" step="any" min="0"></label>
+        <label data-auto="deadriseLCG"><span data-i18n-html="f.deadrise">Deadrise at L<sub>CG</sub></span> <span class="unit">°</span><input name="deadriseLCG" type="number" step="any" min="0" max="50"></label>
+        <label data-auto="aCG"><span data-i18n-html="f.aCG">Design acceleration a<sub>CG</sub></span> <span class="unit">g</span><input name="aCG" type="number" step="any" min="0"></label>
       </form>
       <dl class="derived" id="ship-derived"></dl>
       <ul class="warnings" id="ship-warnings"></ul>

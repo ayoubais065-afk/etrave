@@ -155,3 +155,11 @@ html[lang="ar"] .req strong:not(.ltr) { font-family: var(--font-sans); }
 #stiff-table .w-md { width: 104px; min-width: 104px; } #stiff-table .w-name { min-width: 116px; } #stiff-table td[data-out="req"] .req { min-width: 186px; }
 .calc-table input[type="number"] { -moz-appearance: textfield; appearance: textfield; padding-inline: 6px; }
 .calc-table input[type="number"]::-webkit-inner-spin-button, .calc-table input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Ship form: main data, then estimated values the designer can override */
+.form-sub { grid-column: 1 / -1; margin: 6px 0 -4px; font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+.form-sub:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+html[lang="ar"] .form-sub { font-family: var(--font-sans); letter-spacing: 0; text-transform: none; font-size: 13px; }
+.is-auto input { border-style: dashed; }
+.is-auto input::placeholder { color: var(--text-2); opacity: 0.85; }
+html[lang="ar"] .is-auto input::placeholder { font-family: var(--font-sans); letter-spacing: 0; }
