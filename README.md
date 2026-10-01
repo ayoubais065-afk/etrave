@@ -26,6 +26,7 @@ scantlings.html                  Scantling calculator (beta)
 css/style.css                    Shared styles; colours are CSS variables at the top
 css/scantlings.css               Calculator styles and print layout
 js/main.js                       Shared behaviour
+js/i18n.js                       Translations (English, French, Arabic) and language switcher
 js/scantlings-app.js             Calculator page
 js/scantling/iso12215-5.js       ISO 12215-5:2008 engine: pressures, factors, plating, stiffeners
 js/scantling/bv-nr546.js         BV NR546 engine: layer properties, laminate theory, ply-by-ply check
@@ -46,6 +47,10 @@ Known limitations:
 - ISO 12215-5 is written for recreational craft; professional vessels may fall under other rules.
 
 Run the tests with `npm test` (Node.js 18 or later).
+
+## Languages
+
+The site is available in English, French and Arabic (right-to-left). The switcher in the header remembers the choice; a link can also force a language with `?lang=en`, `?lang=fr` or `?lang=ar`. All texts live in `js/i18n.js`, one line per entry with the three languages side by side.
 
 ## Run locally
 

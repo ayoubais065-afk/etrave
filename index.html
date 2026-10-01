@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-title-key="home.title">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,67 +10,78 @@
   <meta property="og:description" content="From the client's brief to a preliminary design, in minutes.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" hreflang="en" href="https://ayoubais065-afk.github.io/etrave/?lang=en">
+  <link rel="alternate" hreflang="fr" href="https://ayoubais065-afk.github.io/etrave/?lang=fr">
+  <link rel="alternate" hreflang="ar" href="https://ayoubais065-afk.github.io/etrave/?lang=ar">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/i18n.js"></script>
 </head>
 <body>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#" aria-label="ÉTRAVE home">
+      <a class="brand" href="index.html" data-i18n-attr="aria-label:brand.home" aria-label="ÉTRAVE home">
         <img src="assets/logo.svg" width="40" height="40" alt="">
         <span class="brand-text">
           <span class="brand-name">ÉTRAVE</span>
-          <span class="brand-tag">PRELIMINARY SHIP DESIGN</span>
+          <span class="brand-tag" data-i18n="brand.tag">PRELIMINARY SHIP DESIGN</span>
         </span>
       </a>
-      <nav class="main-nav" aria-label="Main">
-        <a href="#platform">Platform</a>
-        <a href="scantlings.html">Scantlings</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#mcp">MCP</a>
-        <a href="#roadmap">Roadmap</a>
+      <nav class="main-nav" data-i18n-attr="aria-label:nav.aria" aria-label="Main">
+        <a href="#platform" data-i18n="nav.platform">Platform</a>
+        <a href="scantlings.html" data-i18n="nav.scantlings">Scantlings</a>
+        <a href="#workflow" data-i18n="nav.workflow">Workflow</a>
+        <a href="#mcp" data-i18n="nav.mcp">MCP</a>
+        <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
       </nav>
-      <a class="btn btn-primary btn-sm" href="#suggest" data-suggest-link>Suggest a feature</a>
+      <div class="header-end">
+        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.aria" aria-label="Language">
+          <button type="button" data-lang="en" lang="en" aria-label="English">EN</button>
+          <button type="button" data-lang="fr" lang="fr" aria-label="Français">FR</button>
+          <button type="button" data-lang="ar" lang="ar" aria-label="العربية">ع</button>
+        </div>
+        <a class="btn btn-primary btn-sm header-cta" href="#suggest" data-suggest-link data-i18n="cta.suggest">Suggest a feature</a>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero container" id="platform">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-rule"></span>In development</p>
-        <h1>From the client's brief to a <span class="accent">preliminary design</span>, in minutes.</h1>
-        <p class="lead">Describe the vessel in plain language. ÉTRAVE generates the hull form, hydrostatics, preliminary scantlings and a construction cost estimate, through the Model Context Protocol.</p>
+        <p class="eyebrow"><span class="eyebrow-rule"></span><span data-i18n="home.eyebrow">In development</span></p>
+        <h1 data-i18n-html="home.h1">From the client’s brief to a <span class="accent">preliminary design</span>, in minutes.</h1>
+        <p class="lead" data-i18n="home.lead">Describe the vessel in plain language. ÉTRAVE generates the hull form, hydrostatics, preliminary scantlings and a construction cost estimate, through the Model Context Protocol.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="#suggest" data-suggest-link>Suggest a feature</a>
-          <a class="btn btn-ghost" href="scantlings.html">Try the scantling calculator</a>
+          <a class="btn btn-primary" href="#suggest" data-suggest-link data-i18n="cta.suggest">Suggest a feature</a>
+          <a class="btn btn-ghost" href="scantlings.html" data-i18n="home.tryCalc">Try the scantling calculator</a>
         </div>
         <dl class="specs" id="standards">
-          <div><dt>Scantlings</dt><dd>ISO 12215-5</dd></div>
-          <div><dt>Resistance</dt><dd>Savitsky method</dd></div>
-          <div><dt>Costing</dt><dd>Estimates in DZD</dd></div>
+          <div><dt data-i18n="spec.scantlings">Scantlings</dt><dd>ISO 12215-5</dd></div>
+          <div><dt data-i18n="spec.resistance">Resistance</dt><dd data-i18n="spec.savitsky">Savitsky method</dd></div>
+          <div><dt data-i18n="spec.costing">Costing</dt><dd data-i18n="spec.dzd">Estimates in DZD</dd></div>
         </dl>
       </div>
 
-      <section class="app" aria-label="Sample output">
+      <section class="app" data-i18n-attr="aria-label:app.sample" aria-label="Sample output">
         <div class="app-bar">
-          <span class="app-title">Preliminary design <span class="sep">/</span> <span class="muted">12 m trawler</span></span>
-          <span class="tag">Sample output</span>
+          <span class="app-title" data-i18n-html="app.title">Preliminary design <span class="sep">/</span> <span class="muted">12 m trawler</span></span>
+          <span class="tag" data-i18n="app.sample">Sample output</span>
         </div>
 
         <div class="app-body">
-          <div class="prompt"><span class="accent">›</span><span>Trawler, 12 m, design category B, GRP, 10 knots</span></div>
+          <div class="prompt"><span class="accent">›</span><span dir="auto" data-i18n="app.prompt">Trawler, 12 m, design category B, GRP, 10 knots</span></div>
 
-          <div class="tabs" role="tablist" aria-label="Drawing views">
-            <button type="button" role="tab" id="tab-profile" aria-selected="true" aria-controls="view-profile">Profile</button>
-            <button type="button" role="tab" id="tab-body" aria-selected="false" aria-controls="view-body" tabindex="-1">Body plan</button>
-            <button type="button" role="tab" id="tab-3d" aria-selected="false" aria-disabled="true" tabindex="-1" title="Coming soon">3D view</button>
+          <div class="tabs" role="tablist" data-i18n-attr="aria-label:tabs.aria" aria-label="Drawing views">
+            <button type="button" role="tab" id="tab-profile" aria-selected="true" aria-controls="view-profile" data-i18n="tab.profile">Profile</button>
+            <button type="button" role="tab" id="tab-body" aria-selected="false" aria-controls="view-body" tabindex="-1" data-i18n="tab.body">Body plan</button>
+            <button type="button" role="tab" id="tab-3d" aria-selected="false" aria-disabled="true" tabindex="-1" data-i18n="tab.3d" data-i18n-attr="title:tab.soon" title="Coming soon">3D view</button>
           </div>
 
           <figure class="drawing" id="view-profile" role="tabpanel" aria-labelledby="tab-profile">
-            <svg viewBox="0 0 560 190" fill="none" aria-label="Hull profile with design waterline and overall length">
+            <svg viewBox="0 0 560 190" fill="none" role="img" aria-label="LOA 12.00 m, DWL" dir="ltr">
               <path d="M88 14V150M136 14V150M184 14V150M232 14V150M280 14V150M328 14V150M376 14V150M424 14V150M472 14V150" stroke="#14253C"/>
               <path d="M40 150H520" stroke="#2B4263"/>
               <path d="M40 88C190 96 360 96 486 80" stroke="#5C6F87"/>
@@ -84,11 +95,11 @@
               <rect x="238" y="164" width="84" height="16" fill="#07111F"/>
               <text x="280" y="176" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#B7C4D3">LOA 12.00 m</text>
             </svg>
-            <figcaption><span>Lines plan · Profile</span><span>Scale 1:50 · Rev. A</span></figcaption>
+            <figcaption><span data-i18n="cap.profile">Lines plan · Profile</span><span data-i18n="cap.scale">Scale 1:50 · Rev. A</span></figcaption>
           </figure>
 
           <figure class="drawing" id="view-body" role="tabpanel" aria-labelledby="tab-body" hidden>
-            <svg viewBox="0 0 220 190" fill="none" aria-label="Body plan sections">
+            <svg viewBox="0 0 220 190" fill="none" role="img" aria-label="Body plan" dir="ltr">
               <path d="M110 10V176" stroke="#2B4263"/>
               <path d="M14 176H206" stroke="#2B4263"/>
               <path class="stroke-accent" d="M14 118H206" stroke-width="1.3" stroke-dasharray="6 4"/>
@@ -98,72 +109,72 @@
               <path d="M110 150L144 138L170 108L182 26" stroke="#B7C4D3" stroke-width="1.2"/>
               <path d="M110 132L134 122L152 96L162 28" stroke="#5C6F87" stroke-width="1.1"/>
             </svg>
-            <figcaption><span>Body plan · Aft (left) / Fwd (right)</span><span>Scale 1:50 · Rev. A</span></figcaption>
+            <figcaption><span data-i18n="cap.body">Body plan · Aft (left) / Fwd (right)</span><span data-i18n="cap.scale">Scale 1:50 · Rev. A</span></figcaption>
           </figure>
         </div>
 
         <dl class="metrics">
-          <div><dt>LWL</dt><dd>10.80 m</dd></div>
-          <div><dt>Beam</dt><dd>4.10 m</dd></div>
-          <div><dt>Draught</dt><dd>1.35 m</dd></div>
-          <div><dt>Displacement</dt><dd>26.9 t</dd></div>
-          <div><dt>Froude no.</dt><dd>0.50</dd></div>
-          <div><dt>Power</dt><dd>≈ 220 kW</dd></div>
-          <div><dt>Bottom plating</dt><dd>9 mm</dd></div>
-          <div><dt>Est. cost</dt><dd class="accent">[DZD]</dd></div>
+          <div><dt data-i18n="m.lwl">LWL</dt><dd>10.80 m</dd></div>
+          <div><dt data-i18n="m.beam">Beam</dt><dd>4.10 m</dd></div>
+          <div><dt data-i18n="m.draught">Draught</dt><dd>1.35 m</dd></div>
+          <div><dt data-i18n="m.disp">Displacement</dt><dd>26.9 t</dd></div>
+          <div><dt data-i18n="m.froude">Froude no.</dt><dd>0.50</dd></div>
+          <div><dt data-i18n="m.power">Power</dt><dd>≈ 220 kW</dd></div>
+          <div><dt data-i18n="m.bottom">Bottom plating</dt><dd>9 mm</dd></div>
+          <div><dt data-i18n="m.cost">Est. cost</dt><dd class="accent">[DZD]</dd></div>
         </dl>
       </section>
     </section>
 
-    <section class="features container" id="workflow" aria-label="Capabilities">
+    <section class="features container" id="workflow" data-i18n-attr="aria-label:features.aria" aria-label="Capabilities">
       <article class="feature is-active">
         <span class="num">01</span>
-        <h2>Parametric hull form</h2>
-        <p>Hard chine or round bilge, with a lines plan and a 3D view.</p>
+        <h2 data-i18n="f1.h">Parametric hull form</h2>
+        <p data-i18n="f1.p">Hard chine or round bilge, with a lines plan and a 3D view.</p>
       </article>
       <article class="feature">
         <span class="num">02</span>
-        <h2>Hydrostatics</h2>
-        <p>Displacement, LCB, KB, BM and an initial GM estimate.</p>
+        <h2 data-i18n="f2.h">Hydrostatics</h2>
+        <p data-i18n="f2.p">Displacement, LCB, KB, BM and an initial GM estimate.</p>
       </article>
       <article class="feature">
         <span class="num">03</span>
-        <h2>Preliminary scantlings</h2>
-        <p>Design pressures, plating and stiffeners per ISO 12215-5. <a href="scantlings.html">Open the calculator</a></p>
+        <h2 data-i18n="f3.h">Preliminary scantlings</h2>
+        <p data-i18n-html="f3.p">Design pressures, plating and stiffeners per ISO 12215-5. <a href="scantlings.html">Open the calculator</a></p>
       </article>
       <article class="feature">
         <span class="num">04</span>
-        <h2>Weight and cost</h2>
-        <p>Weight estimate, cost in DZD and a PDF report for the client.</p>
+        <h2 data-i18n="f4.h">Weight and cost</h2>
+        <p data-i18n="f4.p">Weight estimate, cost in DZD and a PDF report for the client.</p>
       </article>
     </section>
 
     <section class="mcp container" id="mcp">
       <div class="mcp-copy">
-        <p class="eyebrow"><span class="eyebrow-rule"></span>Model Context Protocol</p>
-        <h2>Your AI assistant, connected to real naval architecture tools.</h2>
-        <p class="lead">ÉTRAVE exposes its calculations as MCP tools. An assistant reads the brief, calls the hull generator, the hydrostatics solver and the scantling module, and returns a consistent preliminary design that the engineer reviews and validates.</p>
+        <p class="eyebrow"><span class="eyebrow-rule"></span><span>Model Context Protocol</span></p>
+        <h2 data-i18n="mcp.h">Your AI assistant, connected to real naval architecture tools.</h2>
+        <p class="lead" data-i18n="mcp.lead">ÉTRAVE exposes its calculations as MCP tools. An assistant reads the brief, calls the hull generator, the hydrostatics solver and the scantling module, and returns a consistent preliminary design that the engineer reviews and validates.</p>
       </div>
       <ol class="steps">
-        <li><span class="num">1</span><div><strong>Brief</strong><span>The client's requirements, in plain language.</span></div></li>
-        <li><span class="num">2</span><div><strong>Generate</strong><span>Hull form, hydrostatics and propulsion power.</span></div></li>
-        <li><span class="num">3</span><div><strong>Check</strong><span>Preliminary scantlings and weight estimate.</span></div></li>
-        <li><span class="num">4</span><div><strong>Report</strong><span>A PDF with drawings, results and cost.</span></div></li>
+        <li><span class="num">1</span><div><strong data-i18n="s1.h">Brief</strong><span data-i18n="s1.p">The client’s requirements, in plain language.</span></div></li>
+        <li><span class="num">2</span><div><strong data-i18n="s2.h">Generate</strong><span data-i18n="s2.p">Hull form, hydrostatics and propulsion power.</span></div></li>
+        <li><span class="num">3</span><div><strong data-i18n="s3.h">Check</strong><span data-i18n="s3.p">Preliminary scantlings and weight estimate.</span></div></li>
+        <li><span class="num">4</span><div><strong data-i18n="s4.h">Report</strong><span data-i18n="s4.p">A PDF with drawings, results and cost.</span></div></li>
       </ol>
     </section>
 
     <section class="roadmap container" id="roadmap">
-      <p class="eyebrow"><span class="eyebrow-rule"></span>Roadmap</p>
-      <h2>Built with the naval architects who will use it.</h2>
-      <p class="lead">The platform is in development. Suggestions from practising engineers shape what comes next; contributors are credited on the project page.</p>
-      <a class="btn btn-primary" href="#suggest" id="suggest" data-suggest-link>Suggest a feature</a>
+      <p class="eyebrow"><span class="eyebrow-rule"></span><span data-i18n="road.eyebrow">Roadmap</span></p>
+      <h2 data-i18n="road.h">Built with the naval architects who will use it.</h2>
+      <p class="lead" data-i18n="road.lead">The platform is in development. Suggestions from practising engineers shape what comes next; contributors are credited on the project page.</p>
+      <a class="btn btn-primary" href="#suggest" id="suggest" data-suggest-link data-i18n="cta.suggest">Suggest a feature</a>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
       <span>© 2026 ÉTRAVE</span>
-      <span class="muted">Preliminary results only. Not valid for construction or approval.</span>
+      <span class="muted" data-i18n="footer.note">Preliminary results only. Not valid for construction or approval.</span>
     </div>
   </footer>
 
